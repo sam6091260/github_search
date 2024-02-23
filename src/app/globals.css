@@ -17,6 +17,22 @@ body {
   background: #26e26b !important;
   color: #fff !important;
 }
+
+.signBtn {
+  background: #f57d14;
+  padding: 8px;
+  border-radius: 8px;
+  margin-right: 5px;
+  font-weight: bold;
+}
+.signBtn:hover {
+  background: #ce6910;
+}
+
+.signDiv {
+  display: flex;
+  align-items: flex-start;
+}
 /* ::-webkit-scrollbar {
   width: 5px;
 }

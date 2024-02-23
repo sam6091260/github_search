@@ -13,12 +13,14 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
+    "@octokit/core": "^5.1.0",
     "dotenv": "^16.4.5",
     "framer-motion": "^6.5.1",
     "next": "14.1.0",
     "next-auth": "^4.24.6",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-markdown": "^9.0.1"
   },
   "devDependencies": {
     "eslint": "^8",

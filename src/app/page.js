@@ -3,6 +3,7 @@ import { Container, Text } from "@/app/chakra";
 import Navbar from "./components/Navbar";
 import Search from "./components/Search";
 import { useState } from "react";
+import { SessionProvider } from "next-auth/react";
 import UserProfile from "./components/UserProfile";
 
 export default function Home() {
@@ -11,7 +12,10 @@ export default function Home() {
   console.log(userData);
   return (
     <Container maxW="container.lg">
-      <Navbar />
+      <SessionProvider>
+        <Navbar />
+      </SessionProvider>
+
       <Text fontSize={"2xl"} textAlign={"center"} my={4}>
         Search users on Github
       </Text>

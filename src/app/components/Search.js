@@ -57,6 +57,26 @@ const Search = ({ setUserData, setLoading }) => {
     localStorage.setItem("github-users", JSON.stringify(users));
   };
 
+  // const handleIssue = async (e) => {
+  //   e.preventDefault();
+  //   if (!query) return;
+
+  //   try {
+  //     const res = await fetch(`https://api.github.com/repos/${query}/issues`);
+  //     const data = await res.json();
+
+  //     // 处理从 GitHub API 返回的数据
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const handleFormSubmit = (e) => {
+  //   handleSubmit(e);
+  //   handleIssue(e);
+  // };
+
   return (
     <form onSubmit={handleSubmit}>
       <Input

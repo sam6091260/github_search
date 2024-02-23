@@ -1,13 +1,24 @@
 "use client";
-import { Button, Badge, Flex, Spinner, Link, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Badge,
+  Flex,
+  Spinner,
+  Link,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Text } from "@chakra-ui/react";
+import ReactMarkdown from "react-markdown";
 
 const Repos = ({ reposUrl }) => {
   const toast = useToast();
   const [repos, setRepos] = useState([]);
+  const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [openIssues, setOpenIssues] = useState({});
 
   useEffect(() => {
     const fetchRepos = async () => {
@@ -32,6 +43,34 @@ const Repos = ({ reposUrl }) => {
 
     fetchRepos();
   }, [reposUrl, toast]);
+
+  // 抓取issue資訊
+  const handleIssue = async (repoFullName) => {
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${repoFullName}/issues`
+      );
+      const data = await res.json();
+      setIssues((prevIssues) => ({
+        ...prevIssues,
+        [repoFullName]: data,
+      }));
+      setOpenIssues((prevOpenIssues) => ({
+        ...prevOpenIssues,
+        [repoFullName]: true,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // 關閉issue
+  const handleCloseIssues = (repoFullName) => {
+    setOpenIssues((prevOpenIssues) => ({
+      ...prevOpenIssues,
+      [repoFullName]: false,
+    }));
+  };
+
   return (
     <>
       <Text
@@ -114,6 +153,41 @@ const Repos = ({ reposUrl }) => {
                   Watchers: {repo.watchers_count}
                 </Badge>
               </Flex>
+              {/* Issue開關 */}
+              {openIssues[`${repo.owner.login}/${repo.name}`] ? (
+                <Button
+                  colorScheme="whatsapp"
+                  onClick={() =>
+                    handleCloseIssues(`${repo.owner.login}/${repo.name}`)
+                  }
+                >
+                  Close Issues
+                </Button>
+              ) : (
+                <Button
+                  colorScheme="whatsapp"
+                  onClick={() =>
+                    handleIssue(`${repo.owner.login}/${repo.name}`)
+                  }
+                >
+                  Get Issues
+                </Button>
+              )}
+              <Box>
+                {issues[`${repo.owner.login}/${repo.name}`] &&
+                openIssues[`${repo.owner.login}/${repo.name}`] ? (
+                  <Box>
+                    {issues[`${repo.owner.login}/${repo.name}`].map(
+                      (issue, index) => (
+                        <Box key={index} mt={2}>
+                          <Text fontWeight="bold">{issue.title}</Text>
+                          <Text>{issue.body}</Text>
+                        </Box>
+                      )
+                    )}
+                  </Box>
+                ) : null}
+              </Box>
             </Flex>
           );
         })}
